@@ -13,12 +13,15 @@ const Signup = () => {
     mobile = "",
     username = "",
     password = "",
+    userRole = "",
   } = useSelector((state) => state?.auth?.users || {});
   const loading = useSelector((state) => state.auth.loading);
   const error = useSelector((state) => state.auth.error);
   // const success = useSelector((state) => state.auth.success);
   
-
+  if(userRole){
+    localStorage.setItem("userRole", JSON.stringify(userRole));
+  }
   const handleChange = (e) => {
     const { name, value } = e.target;
     dispatch(getFormData({ name, value }));

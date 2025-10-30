@@ -10,6 +10,7 @@ const authSlice = createSlice({
       mobile: "",
       username: "",
       password: "",
+      userRole: ""
     },
     loginUser: {
       username: "",
@@ -32,6 +33,7 @@ const authSlice = createSlice({
         mobile: "",
         username: "",
         password: "",
+        userRole: ""
       };
     },
      getLoginFormData: (state, action) => {
@@ -61,7 +63,7 @@ const authSlice = createSlice({
     builder.addCase(registration.fulfilled, (state, action) => {
       state.loading = false;
       state.error = null;
-      state.users = action.payload;
+      state.users = action.payload.data;
       state.success = true;
     });
     //login
@@ -76,8 +78,6 @@ const authSlice = createSlice({
       state.success = false;
     });
     builder.addCase(login.fulfilled, (state, action) => {
-      console.log("action:", action.payload);
-      
       state.loading = false;
       state.error = null;
       state.token = action.payload;

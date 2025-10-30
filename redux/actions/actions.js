@@ -22,8 +22,6 @@ export const login = createAsyncThunk(
     async(formData, {rejectWithValue}) => {
         try {
             const res = await axios.post(`${import.meta.env.VITE_API}/login`, formData);
-            console.log(res.data.token);
-            
             return res.data.token; 
         } catch (error) {
             rejectWithValue(error);

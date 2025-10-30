@@ -7,9 +7,14 @@ import { login } from "../../redux/actions/actions";
 const Login = () => {
   const {username, password} = useSelector((state) => state.auth.loginUser);
   const token = useSelector((state) => state.auth.token);
+    const {
+     userRole = ""
+    } = useSelector((state) => state?.auth?.users || {});
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
+  console.log(userRole);
+  
   const handleChange = (e) => {
     const { name, value } = e.target;
     dispatch(getLoginFormData({ name, value }));
@@ -24,8 +29,11 @@ const Login = () => {
       console.log(error);
     }
   }
-  if(token){
-    navigate("/home")
+  if(token && userRole == "0"){
+    navigate("/admin")
+  }
+  if(token && userRole == "1"){
+    navigate("/user")
   }
   return (
     <div>
