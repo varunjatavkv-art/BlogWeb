@@ -1,18 +1,38 @@
 import React from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import { getFormData, resetForm, submitForm } from "../../redux/reducers/authReducers";
 
 const Signup = () => {
+  const dispatch = useDispatch();
+  const {name, email, mobile ,username, password} = useSelector((state) => state.auth.users);
+ 
+
+  const handleChange = (e) => {
+     const {name, value } = e.target;
+     dispatch(getFormData({name,value}));
+  };
+
+  const handleFormSubmit = (e) => {
+    e.preventDefault();
+    console.log("Form Data :", {name, email, mobile,username, password});
+    
+    dispatch(submitForm({name, email, mobile,username, password}));
+    dispatch(resetForm());
+  }
+
   return (
     <div>
       <h1 className="text-4xl py-10">Signup Form</h1>
       <form
         action=""
         className="flex flex-col content-between w-[800px] m-auto gap-5 p-10 text-left rounded-2xl"
-        style={{ "boxShadow": "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px" }}
+        style={{ boxShadow: "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px" }}
+        onSubmit={handleFormSubmit}
       >
         <div className="flex flex-col gap-3">
           <label htmlFor="name" className="text-xl">
-             Name :
+            Name :
           </label>
           <input
             type="text"
@@ -20,11 +40,12 @@ const Signup = () => {
             id="name"
             placeholder="Please Type your Name"
             className="p-3 text-xl"
+            onChange={(e) => handleChange(e)}
           />
         </div>
         <div className="flex flex-col gap-3">
           <label htmlFor="name" className="text-xl">
-             Email :
+            Email :
           </label>
           <input
             type="email"
@@ -32,18 +53,21 @@ const Signup = () => {
             id="email"
             placeholder="Please Type your Email"
             className="p-3 text-xl"
+            onChange={(e) => handleChange(e)}
           />
         </div>
         <div className="flex flex-col gap-3">
           <label htmlFor="name" className="text-xl">
-             Mobile no :
+            Mobile no :
           </label>
           <input
             type="text"
-            name="mobile no"
-            id="mobile no"
+            name="mobile"
+            id="mobile"
             placeholder="Please Type your Mobile No"
             className="p-3 text-xl"
+            onChange={(e) => handleChange(e)}
+            maxLength={10}
           />
         </div>
         <div className="flex flex-col gap-3">
@@ -56,6 +80,7 @@ const Signup = () => {
             id="username"
             placeholder="Please Type your User Name"
             className="p-3 text-xl"
+            onChange={(e) => handleChange(e)}
           />
         </div>
         <div className="flex flex-col gap-3">
@@ -63,11 +88,12 @@ const Signup = () => {
             Password :
           </label>
           <input
-            type="text"
+            type="password"
             name="password"
             id="password"
             placeholder="Please Type your Password"
             className="p-3 text-xl"
+            onChange={(e) => handleChange(e)}
           />
         </div>
         <input
