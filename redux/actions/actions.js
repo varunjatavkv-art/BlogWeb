@@ -3,12 +3,30 @@ import axios from "axios";
 
 export const registration = createAsyncThunk(
     "users/registration",
-    async ({rejectWithValue})=> {
+    async (formData, {rejectWithValue})=> {
         try {
-            const res = axios.post("http://localhost/registration");
-            return res;
+            const res = await axios.post(`${import.meta.env.VITE_API}/registration`, formData, {
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+            return res.data;
         } catch (error) {
            rejectWithValue(error);
         }
     }
 );
+
+export const login = createAsyncThunk(
+    "users/login",
+    async(formData, {rejectWithValue}) => {
+        try {
+            const res = await axios.post(`${import.meta.env.VITE_API}/login`, formData);
+            console.log(res.data.token);
+            
+            return res.data.token; 
+        } catch (error) {
+            rejectWithValue(error);
+        }
+    }
+)

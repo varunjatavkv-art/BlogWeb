@@ -1,25 +1,44 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link } from "react-router-dom";
-import { getFormData, resetForm, submitForm } from "../../redux/reducers/authReducers";
+import { Link, useNavigate } from "react-router-dom";
+import { getFormData, resetForm } from "../../redux/reducers/authReducers";
+import { registration } from "../../redux/actions/actions";
 
 const Signup = () => {
   const dispatch = useDispatch();
-  const {name, email, mobile ,username, password} = useSelector((state) => state.auth.users);
- 
+  const navigate = useNavigate();
+  const {
+    name = "",
+    email = "",
+    mobile = "",
+    username = "",
+    password = "",
+  } = useSelector((state) => state?.auth?.users || {});
+  const loading = useSelector((state) => state.auth.loading);
+  const error = useSelector((state) => state.auth.error);
+  // const success = useSelector((state) => state.auth.success);
+  
 
   const handleChange = (e) => {
-     const {name, value } = e.target;
-     dispatch(getFormData({name,value}));
+    const { name, value } = e.target;
+    dispatch(getFormData({ name, value }));
   };
 
   const handleFormSubmit = (e) => {
     e.preventDefault();
-    console.log("Form Data :", {name, email, mobile,username, password});
-    
-    dispatch(submitForm({name, email, mobile,username, password}));
-    dispatch(resetForm());
-  }
+
+    try {
+      dispatch(
+        registration({ name, email, mobile, username, password })
+      ).unwrap();
+      dispatch(resetForm());
+      navigate("/");
+    } catch (error) {
+      console.log("error:", error);
+    }
+  };
+
+ 
 
   return (
     <div>
@@ -40,6 +59,7 @@ const Signup = () => {
             id="name"
             placeholder="Please Type your Name"
             className="p-3 text-xl"
+            value={name}
             onChange={(e) => handleChange(e)}
           />
         </div>
@@ -53,6 +73,7 @@ const Signup = () => {
             id="email"
             placeholder="Please Type your Email"
             className="p-3 text-xl"
+            value={email}
             onChange={(e) => handleChange(e)}
           />
         </div>
@@ -66,6 +87,7 @@ const Signup = () => {
             id="mobile"
             placeholder="Please Type your Mobile No"
             className="p-3 text-xl"
+            value={mobile}
             onChange={(e) => handleChange(e)}
             maxLength={10}
           />
@@ -80,6 +102,7 @@ const Signup = () => {
             id="username"
             placeholder="Please Type your User Name"
             className="p-3 text-xl"
+            value={username}
             onChange={(e) => handleChange(e)}
           />
         </div>
@@ -93,6 +116,7 @@ const Signup = () => {
             id="password"
             placeholder="Please Type your Password"
             className="p-3 text-xl"
+            value={password}
             onChange={(e) => handleChange(e)}
           />
         </div>
@@ -107,6 +131,8 @@ const Signup = () => {
           </Link>{" "}
         </p>
       </form>
+      {loading && "Loading...."}
+      {error && error}
     </div>
   );
 };
