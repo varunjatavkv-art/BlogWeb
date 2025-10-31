@@ -13,20 +13,28 @@ import Signup from "./page/Signup.jsx";
 import Home from "./page/Home.jsx";
 import User from "./page/User.jsx";
 import Admin from "./page/Admin.jsx";
+import PrivateRoute from "./PrivateRoute/PrivateRoute.jsx";
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
     <Provider store={store}>
       <BrowserRouter>
+        <App >
         <Routes>
-          <Route path="" element={<App />}>
-            <Route index element={<Login />} />
-            <Route path="/signup" element={<Signup />} />
+          //? public routes
+          <Route path="/" element={<Login />} />
+          <Route path="/signup" element={<Signup />} />
+
+          //? private routes
+          <Route path="" element={<PrivateRoute />}>
             <Route path="/home" element={<Home />} />
             <Route path="/user" element={<User />} />
             <Route path="/admin" element={<Admin />} />
           </Route>
+
+          <Route path="*" element={<h1>Not Found</h1>} />
         </Routes>
+        </App>
       </BrowserRouter>
     </Provider>
   </StrictMode>

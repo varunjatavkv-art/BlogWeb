@@ -1,20 +1,19 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
-import { getLoginFormData, resetLoginForm } from "../../redux/reducers/authReducers";
+import {
+  getLoginFormData,
+  resetLoginForm,
+} from "../../redux/reducers/authReducers";
 import { login } from "../../redux/actions/actions";
 
 const Login = () => {
-  const {username, password} = useSelector((state) => state.auth.loginUser);
+  const { username, password } = useSelector((state) => state.auth.loginUser);
   const token = useSelector((state) => state.auth.token);
-    const {
-     userRole = ""
-    } = useSelector((state) => state?.auth?.users || {});
+  const userRole = useSelector((state) => state.auth.userRole);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  console.log(userRole);
-  
   const handleChange = (e) => {
     const { name, value } = e.target;
     dispatch(getLoginFormData({ name, value }));
@@ -23,18 +22,26 @@ const Login = () => {
   const submitLoginForm = (e) => {
     e.preventDefault();
     try {
-       dispatch(login({username, password})).unwrap();
-       dispatch(resetLoginForm());
+      dispatch(login({ username, password })).unwrap();
+      dispatch(resetLoginForm());
     } catch (error) {
       console.log(error);
     }
-  }
-  if(token && userRole == "0"){
-    navigate("/admin")
-  }
-  if(token && userRole == "1"){
-    navigate("/user")
-  }
+  };
+
+  useEffect(() => {
+    localStorage.setItem("storagetoken", JSON.stringify(token));
+  }, [token]);
+
+  useEffect(() => {
+    if (token && userRole == "0") {
+      navigate("/admin" , {replace:true});
+    }
+    if (token && userRole == "1") {
+      navigate("/user", {replace:true});
+    }
+  }, [token, userRole, navigate]);
+
   return (
     <div>
       <h1 className="text-4xl py-10 text-center">Login Form</h1>

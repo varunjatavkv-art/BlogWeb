@@ -1,14 +1,10 @@
-import { Outlet } from "react-router-dom";
+import Header from "./components/Header";
 
-import Header from "./componets/Header";
-
-function App() {
+function App({ children }) {
   return (
     <>
       <Header />
-      <div className="pt-40">
-        <Outlet />
-      </div>
+      <div className="pt-40">{children}</div>
     </>
   );
 }

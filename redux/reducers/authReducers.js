@@ -10,12 +10,12 @@ const authSlice = createSlice({
       mobile: "",
       username: "",
       password: "",
-      userRole: ""
     },
     loginUser: {
       username: "",
       password: ""
     },
+    userRole: null,
     loading: false,
     error: null,
     success:false,
@@ -45,6 +45,9 @@ const authSlice = createSlice({
         username: "",
         password: "",
       };
+    },
+    resetToken: (state) => {
+      state.token = null;
     }
   },
 
@@ -80,11 +83,12 @@ const authSlice = createSlice({
     builder.addCase(login.fulfilled, (state, action) => {
       state.loading = false;
       state.error = null;
-      state.token = action.payload;
+      state.token = action.payload.token;
+      state.userRole = action.payload.userRole;
       state.success = true;
     });
   },
 });
 
-export const { getFormData, resetForm , getLoginFormData, resetLoginForm } = authSlice.actions;
+export const { getFormData, resetForm , getLoginFormData, resetLoginForm , resetToken} = authSlice.actions;
 export default authSlice.reducer;
