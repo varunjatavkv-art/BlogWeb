@@ -2,7 +2,7 @@ import React from 'react'
 import { Link } from "react-router-dom";
 const Header = () => {
   return (
-    <header className="flex items-center justify-between fixed px-4 pt-4 bg-white pb-4 w-[70%]">
+    <header className="flex items-center justify-between fixed px-4 pt-4 bg-white pb-4 w-full">
         <div>
           <img
             src="https://png.pngtree.com/png-vector/20230304/ourmid/pngtree-colorful-blog-speech-bubble-vector-png-image_6633021.png"

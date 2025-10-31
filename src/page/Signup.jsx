@@ -45,7 +45,7 @@ const Signup = () => {
 
   return (
     <div>
-      <h1 className="text-4xl py-10">Signup Form</h1>
+      <h1 className="text-4xl py-10 text-center">Signup Form</h1>
       <form
         action=""
         className="flex flex-col content-between w-[800px] m-auto gap-5 p-10 text-left rounded-2xl"
