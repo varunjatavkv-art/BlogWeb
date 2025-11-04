@@ -16,7 +16,7 @@ const Header = () => {
     navigate("/", { replace: true });
   };
   return (
-    <header className="flex items-center justify-between fixed px-4 pt-4 bg-white pb-4 w-full">
+    <header className="flex items-center justify-between fixed px-4 pt-4 bg-white pb-4 w-full shadow-md">
       <div>
         <img
           src="https://png.pngtree.com/png-vector/20230304/ourmid/pngtree-colorful-blog-speech-bubble-vector-png-image_6633021.png"
@@ -32,7 +32,7 @@ const Header = () => {
           <Link to="/add_blog">Add Blog</Link>
           {token ? (
             <button
-              className="bg-red-500 text-white block p-2 cursor-pointer"
+              className="bg-red-500 text-white block p-2 font-bold cursor-pointer rounded-lg"
               onClick={logout}
             >
               Logout

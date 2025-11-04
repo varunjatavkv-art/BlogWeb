@@ -1,11 +1,16 @@
-import React from 'react'
+import React from "react";
+import { Outlet } from "react-router-dom";
+import Sidebar from "../components/Sidebar";
 
 const User = () => {
   return (
-    <div>
-        <h1 className='text-center'>User</h1>
-    </div>
-  )
-}
+    <>
+      <div className="flex flex-row ">
+        <Sidebar />
+        <Outlet />
+      </div>
+    </>
+  );
+};
 
-export default User
+export default User;
