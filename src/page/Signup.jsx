@@ -1,8 +1,8 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
-import { getFormData, resetForm } from "../../redux/reducers/authReducers";
-import { registration } from "../../redux/actions/actions";
+import { getFormData, resetForm } from "../../redux/reducers/authReducers.js";
+import { registration } from "../../redux/actions/authActions.js";
 
 const Signup = () => {
   const dispatch = useDispatch();

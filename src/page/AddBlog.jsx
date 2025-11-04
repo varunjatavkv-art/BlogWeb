@@ -1,22 +1,67 @@
-import React from 'react'
+import React from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { getFormData, resetForm } from '../../redux/reducers/blogReducer'; // Assuming path
+import { createBlog } from '../../redux/actions/blogActions'; // Assuming path
 
 const AddBlog = () => {
+  const dispatch = useDispatch();
+  const { formData, loading, success, error } = useSelector((state) => state.blog);
+   const { userRole } = useSelector((state) => state.auth);
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    dispatch(getFormData({ name, value }));
+  };
+
+  const handleFileChange = (e) => {
+    const file = e.target.files[0]; 
+    if (file) {
+      dispatch(getFormData({ name: 'imageFile', value: file }));
+    }
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const dataToSubmit = new FormData();
+    const imageFile = formData.imageFile; 
+
+    if (imageFile) {
+        dataToSubmit.append('blogImage', imageFile); 
+    }
+    
+    dataToSubmit.append('title', formData.title);
+    dataToSubmit.append('description', formData.description);
+    dataToSubmit.append('created_at', Date.now());
+    dataToSubmit.append('created_by', userRole);
+
+    dispatch(createBlog(dataToSubmit));
+    dispatch(resetForm());
+  };
+
   return (
-     <div className='w-full pt-10'>
+    <div className='w-full pt-10'>
       <h1 className="text-center text-2xl font-bold">User Add Blog</h1>
+
+      {loading && <p className="text-center text-blue-500">Submitting...</p>}
+      {success && <p className="text-center text-green-500">Blog submitted successfully!</p>}
+      {error && <p className="text-center text-red-500">Error: {error}</p>}
+      
       <form
-        action=""
+  
+        onSubmit={handleSubmit}
         className="w-1/2 m-auto p-20 flex flex-col gap-10 rounded-xl shadow-xl"
       >
         <div className="flex flex-col gap-5">
           <label htmlFor="image">Image:</label>
           <input
             type="file"
-            name="image"
+            name="blogImage"
             id="image"
+            onChange={handleFileChange}
             className="p-2 cursor-pointer"
           />
         </div>
+        
         <div className="flex flex-col gap-5">
           <label htmlFor="title">Title</label>
           <input
@@ -25,22 +70,28 @@ const AddBlog = () => {
             id="title"
             placeholder="Please Enter Title here"
             className="p-2 border border-2 border-blue-500 rounded-md"
+            value={formData.title} 
+            onChange={handleChange}
           />
         </div>
+        
         <div className="flex flex-col gap-5">
           <label htmlFor="description">Description</label>
           <textarea
-            type="text"
             name="description"
             id="description"
             placeholder="Please Enter Description here"
             className="p-2 border border-2 border-blue-500 rounded-md"
+            value={formData.description}
+            onChange={handleChange}
           />
         </div>
+        
         <input
           type="submit"
-          value="Submit"
-          className="bg-blue-500 rounded-lg font-bold text-white p-2 cursor-pointer"
+          value={loading ? "Submitting..." : "Submit"}
+          disabled={loading} 
+          className="bg-blue-500 rounded-lg font-bold text-white p-2 cursor-pointer disabled:opacity-50"
         />
       </form>
     </div>

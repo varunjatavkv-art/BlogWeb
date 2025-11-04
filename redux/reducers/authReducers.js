@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { login, registration } from "../actions/actions";
+import { login, registration } from "../actions/authActions";
 
 const authSlice = createSlice({
   name: "authUsers",
@@ -32,8 +32,7 @@ const authSlice = createSlice({
         email: "",
         mobile: "",
         username: "",
-        password: "",
-        userRole: ""
+        password: ""
       };
     },
      getLoginFormData: (state, action) => {

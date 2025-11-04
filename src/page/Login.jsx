@@ -5,7 +5,7 @@ import {
   getLoginFormData,
   resetLoginForm,
 } from "../../redux/reducers/authReducers";
-import { login } from "../../redux/actions/actions";
+import { login } from "../../redux/actions/authActions.js";
 
 const Login = () => {
   const { username, password } = useSelector((state) => state.auth.loginUser);
