@@ -2,7 +2,7 @@ import React from 'react'
 
 const AddBlog = () => {
   return (
-     <div className='w-full'>
+     <div className='w-full pt-10'>
       <h1 className="text-center text-2xl font-bold">User Add Blog</h1>
       <form
         action=""

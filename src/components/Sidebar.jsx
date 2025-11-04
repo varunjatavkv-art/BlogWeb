@@ -3,25 +3,19 @@ import { Link } from "react-router-dom";
 
 const Sidebar = () => {
   return (
-    <div className="w-1/4 flex flex-col gap-10 h-full p-10 shadow-lg h-100">
-      <li>
+    <div className="w-[400px]  h-full p-10 shadow-lg h-full fixed">
+      <li className="list-none flex flex-col gap-10 font-bold">
         <ul>
           <Link to="/user">Add Blog</Link>
         </ul>
-      </li>
-      <li>
         <ul>
-          <Link to="/user">Pending Blog</Link>
+          <Link to="/user/pending-blogs">Pending Blog</Link>
         </ul>
-      </li>
-      <li>
         <ul>
-          <Link to="/user">Rejected Blog</Link>
+          <Link to="/user/rejected-blogs">Rejected Blog</Link>
         </ul>
-      </li>
-      <li>
         <ul>
-          <Link to="/user">Confirmed Blog</Link>
+          <Link to="/user/approved-blogs">Approved Blog</Link>
         </ul>
       </li>
     </div>

@@ -14,7 +14,10 @@ import Home from "./page/Home.jsx";
 import User from "./page/User.jsx";
 import Admin from "./page/Admin.jsx";
 import PrivateRoute from "./PrivateRoute/PrivateRoute.jsx";
-import AddBlog from "./components/AddBlog.jsx";
+import AddBlog from "./page/AddBlog.jsx";
+import PendingBlogs from "./page/PendingBlogs.jsx";
+import RejectedBlogs from "./page/RejectedBlogs.jsx";
+import ApprovedBlogs from "./page/ApprovedBlogs.jsx";
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
@@ -31,6 +34,9 @@ createRoot(document.getElementById("root")).render(
             <Route path="/home" element={<Home />} />
             <Route path="/user" element={<User />} >
              <Route index element={<AddBlog />} />
+             <Route path="/user/pending-blogs" element={<PendingBlogs />} />
+             <Route path="/user/rejected-blogs" index element={<RejectedBlogs />} />
+             <Route path="/user/approved-blogs" index element={<ApprovedBlogs />} />
              </Route>
             <Route path="/admin" element={<Admin />} />
           </Route>

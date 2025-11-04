@@ -4,7 +4,7 @@ function App({ children }) {
   return (
     <>
       <Header />
-      <div className="pt-40">{children}</div>
+      <div className="pt-24">{children}</div>
     </>
   );
 }

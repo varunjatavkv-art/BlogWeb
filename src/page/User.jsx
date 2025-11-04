@@ -5,9 +5,11 @@ import Sidebar from "../components/Sidebar";
 const User = () => {
   return (
     <>
-      <div className="flex flex-row ">
+      <div className="flex flex-row h-[100vh]">
         <Sidebar />
-        <Outlet />
+        <div className="pl-[500px] w-full">
+          <Outlet />
+        </div>
       </div>
     </>
   );

@@ -3,7 +3,7 @@ import React from 'react'
 const Admin = () => {
   return (
      <>
-      <h1 className="text-center text-2xl font-bold">Admin Add Blog</h1>
+      <h1 className="text-center text-2xl font-bold pt-10">Admin Add Blog</h1>
       <form action="" className="w-1/2 m-auto p-20 flex flex-col gap-10 rounded-xl shadow-xl">
         <div className="flex flex-col gap-5">
           <label htmlFor="image">Image:</label>
