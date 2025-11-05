@@ -2,13 +2,18 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { getFormData, resetForm } from '../../redux/reducers/blogReducer';
 import { createBlog } from '../../redux/actions/blogActions';
+import { useNavigate } from 'react-router-dom';
 
 const AddBlog = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const { formData, loading, success, error } = useSelector((state) => state.blog);
   const { userRole } = useSelector((state) => state.auth);
 
-  const blogUserRole = userRole || localStorage.getItem("userRole");
+  const blogUserRole = userRole || JSON.Parse(localStorage.getItem("userRole"));
+
+  console.log(blogUserRole);
+  
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -39,6 +44,11 @@ const AddBlog = () => {
     dispatch(createBlog(dataToSubmit));
     dispatch(resetForm());
   };
+
+  if(success){
+    alert("Blog submitted successfully!");
+    navigate("/user/pending-blogs")
+  }
 
   return (
     <div className='w-full pt-10'>

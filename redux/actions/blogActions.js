@@ -12,8 +12,7 @@ export const createBlog = createAsyncThunk(
         return rejectWithValue("Authentication token not found. Please log in.");
     }
 
-    // FIX: Hardcode the known working URL to bypass potential VITE_API config issues
-    const apiUrl = `http://localhost:1040/blog/add`;
+    const apiUrl = `${import.meta.env.VITE_API}/blog/add`;
 
     try {
       const res = await axios.post(
@@ -22,7 +21,6 @@ export const createBlog = createAsyncThunk(
         {
           headers: {
             "Authorization": authHeader,
-            // CRITICAL: DO NOT manually set Content-Type header here for FormData.
           },
         }
       );

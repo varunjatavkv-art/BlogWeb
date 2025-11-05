@@ -11,7 +11,6 @@ const Login = () => {
   const { username, password } = useSelector((state) => state.auth.loginUser);
   const token = useSelector((state) => state.auth.token);
   const userRole = useSelector((state) => state.auth.userRole);
-  const success = useSelector((state) => state.auth.success);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -19,15 +18,13 @@ const Login = () => {
     const { name, value } = e.target;
     dispatch(getLoginFormData({ name, value }));
   };
-
+  
   const submitLoginForm = (e) => {
     e.preventDefault();
     try {
       dispatch(login({ username, password })).unwrap();
       dispatch(resetLoginForm());
-      // if(success){
-      //   alert("Logged in successfully!!");
-      // }
+      
     } catch (error) {
       console.log(error);
     }
@@ -40,9 +37,11 @@ const Login = () => {
 
   useEffect(() => {
     if (token && userRole == "0") {
+       alert("Admin Logged in successfully!!");
       navigate("/admin" , {replace:true});
     }
     if (token && userRole == "1") {
+       alert("User Logged in successfully!!");
       navigate("/user", {replace:true});
     }
   }, [token, userRole, navigate]);
