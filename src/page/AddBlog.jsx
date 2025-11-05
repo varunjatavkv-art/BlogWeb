@@ -1,12 +1,14 @@
-import React from 'react';
+
 import { useDispatch, useSelector } from 'react-redux';
-import { getFormData, resetForm } from '../../redux/reducers/blogReducer'; // Assuming path
-import { createBlog } from '../../redux/actions/blogActions'; // Assuming path
+import { getFormData, resetForm } from '../../redux/reducers/blogReducer';
+import { createBlog } from '../../redux/actions/blogActions';
 
 const AddBlog = () => {
   const dispatch = useDispatch();
   const { formData, loading, success, error } = useSelector((state) => state.blog);
-   const { userRole } = useSelector((state) => state.auth);
+  const { userRole } = useSelector((state) => state.auth);
+
+  const blogUserRole = userRole || localStorage.getItem("userRole");
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -24,7 +26,7 @@ const AddBlog = () => {
     e.preventDefault();
     const dataToSubmit = new FormData();
     const imageFile = formData.imageFile; 
-
+    
     if (imageFile) {
         dataToSubmit.append('blogImage', imageFile); 
     }
@@ -32,7 +34,7 @@ const AddBlog = () => {
     dataToSubmit.append('title', formData.title);
     dataToSubmit.append('description', formData.description);
     dataToSubmit.append('created_at', Date.now());
-    dataToSubmit.append('created_by', userRole);
+    dataToSubmit.append('created_by', blogUserRole);
 
     dispatch(createBlog(dataToSubmit));
     dispatch(resetForm());
@@ -44,10 +46,15 @@ const AddBlog = () => {
 
       {loading && <p className="text-center text-blue-500">Submitting...</p>}
       {success && <p className="text-center text-green-500">Blog submitted successfully!</p>}
-      {error && <p className="text-center text-red-500">Error: {error}</p>}
+      
+      {/* FIX: Ensure error is rendered as a string to prevent React child error */}
+      {error && (
+        <p className="text-center text-red-500">
+          Error: {typeof error === 'string' ? error : JSON.stringify(error)}
+        </p>
+      )}
       
       <form
-  
         onSubmit={handleSubmit}
         className="w-1/2 m-auto p-20 flex flex-col gap-10 rounded-xl shadow-xl"
       >
@@ -70,7 +77,7 @@ const AddBlog = () => {
             id="title"
             placeholder="Please Enter Title here"
             className="p-2 border border-2 border-blue-500 rounded-md"
-            value={formData.title} 
+            value={formData.title || ''} 
             onChange={handleChange}
           />
         </div>
@@ -82,7 +89,7 @@ const AddBlog = () => {
             id="description"
             placeholder="Please Enter Description here"
             className="p-2 border border-2 border-blue-500 rounded-md"
-            value={formData.description}
+            value={formData.description || ''}
             onChange={handleChange}
           />
         </div>

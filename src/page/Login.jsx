@@ -11,6 +11,7 @@ const Login = () => {
   const { username, password } = useSelector((state) => state.auth.loginUser);
   const token = useSelector((state) => state.auth.token);
   const userRole = useSelector((state) => state.auth.userRole);
+  const success = useSelector((state) => state.auth.success);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -24,6 +25,9 @@ const Login = () => {
     try {
       dispatch(login({ username, password })).unwrap();
       dispatch(resetLoginForm());
+      // if(success){
+      //   alert("Logged in successfully!!");
+      // }
     } catch (error) {
       console.log(error);
     }
@@ -31,7 +35,8 @@ const Login = () => {
 
   useEffect(() => {
     localStorage.setItem("storagetoken", JSON.stringify(token));
-  }, [token]);
+    localStorage.setItem("userRole", JSON.stringify(userRole));
+  }, [token , userRole]);
 
   useEffect(() => {
     if (token && userRole == "0") {

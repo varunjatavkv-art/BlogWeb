@@ -1,5 +1,3 @@
-// blogReducer.js
-
 import { createSlice } from "@reduxjs/toolkit";
 import { createBlog } from "../actions/blogActions.js";
 
@@ -40,20 +38,20 @@ const blogSlice = createSlice({
   },
   extraReducers: (builders) => {
     builders.addCase(createBlog.pending, (state) => {
-      (state.loading = true), (state.error = null), (state.success = false);
+      state.loading = true;
+      state.error = null;
+      state.success = false;
     });
     builders.addCase(createBlog.rejected, (state, action) => {
-      (state.loading = false),
-        (state.error = action.payload), 
-        (state.success = false);
+      state.loading = false;
+      state.error = action.payload;
+      state.success = false;
     });
     builders.addCase(createBlog.fulfilled, (state, action) => {
-        console.log(action.payload);
-        
-      (state.loading = false),
-        (state.error = null),
-        (state.success = true),
-        state.status = action.payload
+      state.loading = false;
+      state.error = null;
+      state.success = true;
+      state.status = action.payload;
       state.author = action.payload.author;
     });
   },

@@ -3,27 +3,26 @@ import axios from "axios";
 
 export const createBlog = createAsyncThunk(
   "blog/create",
-  async (formData, thunkAPI) => {
+  async (formData, { rejectWithValue }) => {
     
-    const { rejectWithValue } = thunkAPI;
-
     const rawToken = localStorage.getItem("storagetoken");
-
     const authHeader = rawToken ? `Bearer ${rawToken}` : null;
-    // console.log(authHeader);
     
     if (!authHeader) {
-        return rejectWithValue("Authentication token not found.");
+        return rejectWithValue("Authentication token not found. Please log in.");
     }
+
+    // FIX: Hardcode the known working URL to bypass potential VITE_API config issues
+    const apiUrl = `http://localhost:1040/blog/add`;
 
     try {
       const res = await axios.post(
-        `${import.meta.env.VITE_API}/blog/add`,
+        apiUrl,
         formData,
         {
           headers: {
-            "Content-Type":"multipart/form-data",
             "Authorization": authHeader,
+            // CRITICAL: DO NOT manually set Content-Type header here for FormData.
           },
         }
       );
@@ -31,10 +30,14 @@ export const createBlog = createAsyncThunk(
       return res.data; 
       
     } catch (error) {
+      const responseData = error.response?.data;
+      
+      // FIX: Ensure a string is returned from the error response object
       const errorMessage =
-        error.response?.data?.message ||
-        error.message ||
-        "An unknown error occurred.";
+        responseData?.error?.message ||
+        responseData?.error || 
+        responseData?.message ||
+        (typeof responseData === 'string' ? responseData : "An unknown error occurred.");
         
       return rejectWithValue(errorMessage);
     }
